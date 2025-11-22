@@ -1,0 +1,135 @@
+/* ui/src/lib/styles.css */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+.bb-card {
+  max-width: 640px;
+  margin: 3rem auto;
+  padding: 2rem 2.5rem;
+  border-radius: 1.25rem;
+  background: radial-gradient(circle at top left, #020617 0%, #0f172a 100%);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.75);
+  color: #e5e7eb;
+  font-family: "Inter", system-ui, sans-serif;
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Eyebrow label with live dot */
+.bb-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #38bdf8;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Live pulse dot (pure CSS, no Tailwind needed) */
+.bb-dot-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.bb-dot-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background-color: #38bdf8;
+  opacity: 0.75;
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.bb-dot-core {
+  position: relative;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: #0ea5e9;
+}
+
+/* Typography */
+.bb-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  background: linear-gradient(to right, #f9fafb, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0 0 0.5rem 0;
+}
+
+.bb-body {
+  font-size: 0.95rem;
+  color: #cbd5f5;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
+}
+
+/* Divider */
+.bb-divider {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(56, 189, 248, 0.6),
+    transparent
+  );
+  margin: 1.5rem 0;
+}
+
+/* Section + list */
+.bb-section-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #f9fafb;
+}
+
+.bb-list {
+  list-style: disc;
+  padding-left: 1.25rem;
+  font-size: 0.875rem;
+  color: #cbd5f5;
+}
+
+.bb-list li + li {
+  margin-top: 0.35rem;
+}
+
+/* Footer */
+.bb-footer {
+  margin-top: 1.5rem;
+  text-align: right;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
