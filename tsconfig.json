@@ -1,0 +1,47 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./web"
+    },
+    {
+      "path": "./api"
+    },
+    {
+      "path": "./worker"
+    },
+    {
+      "path": "./ui"
+    },
+    {
+      "path": "./types"
+    },
+    {
+      "path": "./db"
+    },
+    {
+      "path": "./auth"
+    },
+    {
+      "path": "./jobs"
+    },
+    {
+      "path": "./domain"
+    },
+    {
+      "path": "./compliance"
+    },
+    {
+      "path": "./infra"
+    }
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs",
+      "moduleResolution": "node10",
+      "customConditions": null
+    }
+  }
+}

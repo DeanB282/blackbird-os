@@ -1,0 +1,11 @@
+# compliance
+
+This library was generated with [Nx](https://nx.dev).
+
+## Building
+
+Run `nx build compliance` to build the library.
+
+## Running unit tests
+
+Run `nx test compliance` to execute the unit tests via [Jest](https://jestjs.io).

@@ -1,0 +1,21 @@
+packages:
+  - 'packages/*'
+  - 'web'
+  - 'api'
+  - 'worker'
+  - 'ui'
+  - 'types'
+  - 'db'
+  - 'auth'
+  - 'jobs'
+  - 'domain'
+  - 'compliance'
+  - 'infra'
+autoInstallPeers: true
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - '@swc/core'
+  - 'esbuild'
+  - 'nx'
+  - 'sharp'
+  - 'unrs-resolver'

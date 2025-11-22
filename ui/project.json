@@ -1,0 +1,39 @@
+{
+  "name": "@blackbird-os/ui",
+  "root": "ui",
+  "sourceRoot": "ui/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/ui",
+        "main": "ui/src/index.ts",
+        "tsConfig": "ui/tsconfig.lib.json",
+        "assets": []
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "ui/**/*.ts",
+          "ui/**/*.tsx",
+          "ui/**/*.js",
+          "ui/**/*.jsx"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/ui"],
+      "options": {
+        "jestConfig": "ui/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}
