@@ -1,5 +1,20 @@
 # BlackbirdOs
 
+## Dev authentication sandbox
+
+This repo includes a temporary NextAuth dev setup while we build the real Azure AD B2C integration.
+
+- Auth implementation lives in `web/auth.ts` (NextAuth v5, credentials provider).
+- Local env config is stored in `.env.local` (ignored by git).
+- Home page (`/`) shows a **Dev Auth Sandbox** with:
+  - Live session status
+  - Links to `/protected` (raw session JSON) and `/partner` (role-gated partner dashboard)
+- Roles:
+  - `admin` – use `DEV_ADMIN_EMAIL` + `DEV_ADMIN_PASSWORD`
+  - `partner` – any email with the correct `DEV_ADMIN_PASSWORD` will get `role="partner"` for testing.
+
+This will be replaced later by the real Blackbird OS shell and Azure AD B2C login, but it gives us a safe place to test auth and roles now.
+
 <a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 
 ✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
