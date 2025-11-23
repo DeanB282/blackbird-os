@@ -1,6 +1,23 @@
+/* Tailwind layers MUST be first */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Cursor pop animation for Dev HUD */
+@keyframes pop {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+#cursor-tracer {
+  will-change: transform;
+}
 
 /* Micro animation */
 @keyframes fade-in {
