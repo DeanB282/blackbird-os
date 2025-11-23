@@ -1,2 +1,2 @@
-export * from './lib/ui.js';
-export * from './lib/HelloCard';
+// ui/src/index.ts
+export * from "./lib/HelloCard";
