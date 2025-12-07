@@ -1,1 +1,2 @@
-export * from './lib/types.js';
+// types/src/index.ts
+export * from "./lib/rbac.js";

@@ -1,18 +1,18 @@
 {
-  "name": "@blackbird-os/ui",
   "$schema": "../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "ui/src",
+  "name": "@blackbird-os/types",
   "projectType": "library",
+  "root": "types",
+  "sourceRoot": "types/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": ["{projectRoot}/dist/out-tsc"],
       "options": {
-        "outputPath": "dist/ui",
-        "main": "ui/src/index.ts",
-        "tsConfig": "ui/tsconfig.lib.json",
-        "assets": []
+        "outputPath": "dist/out-tsc",
+        "tsConfig": "types/tsconfig.lib.json",
+        "main": "types/src/index.ts"
       }
     },
     "lint": {
@@ -20,17 +20,17 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "ui/**/*.ts",
-          "ui/**/*.tsx",
-          "ui/**/*.js",
-          "ui/**/*.jsx"
+          "types/**/*.ts",
+          "types/**/*.tsx",
+          "types/**/*.js",
+          "types/**/*.jsx"
         ]
       }
     },
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "echo \"No automated tests configured yet\""
+        "command": "echo \"No automated tests for @blackbird-os/types yet (stub target).\""
       }
     }
   }

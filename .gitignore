@@ -64,3 +64,9 @@ storybook-static
 dist
 .nx/cache
 .next
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+.crash

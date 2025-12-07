@@ -14,7 +14,6 @@ jobs:
   main:
     runs-on: ubuntu-latest
 
-    # Make the Nx Cloud token available to all steps in this job
     env:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
@@ -31,7 +30,6 @@ jobs:
           version: 9.8.0
           run_install: false
 
-      # Cache node_modules using pnpm lockfile
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -41,15 +39,37 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # If later you want full task distribution with Nx Cloud agents, you can
-      # uncomment and configure this step:
-      # - name: Start Nx Cloud distributed CI run
-      #   run: pnpm dlx nx start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="build"
-
       - name: Run lint, test, build, typecheck
         run: pnpm exec nx run-many -t lint test build typecheck
 
-      # Let Nx Cloud suggest fixes if anything failed above
       - name: Run nx fix-ci
         if: always()
         run: pnpm exec nx fix-ci
+
+  e2e:
+    name: E2E tests (stub)
+    needs: main
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          filter: tree:0
+          fetch-depth: 0
+
+      - name: E2E tests placeholder
+        run: |
+          echo "No e2e tests wired yet."
+          echo "This job exists as a hook for future Playwright/Cypress tests."
+
+  slsa-provenance:
+    name: SLSA provenance (stub)
+    needs: main
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SLSA generator placeholder
+        run: |
+          echo "SLSA provenance generation will be added here"
+          echo "once we have a concrete release artifact in Phase B."

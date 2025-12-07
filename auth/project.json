@@ -1,18 +1,18 @@
 {
-  "name": "@blackbird-os/ui",
   "$schema": "../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "ui/src",
+  "name": "@blackbird-os/auth",
   "projectType": "library",
+  "root": "auth",
+  "sourceRoot": "auth/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": ["{projectRoot}/dist/out-tsc"],
       "options": {
-        "outputPath": "dist/ui",
-        "main": "ui/src/index.ts",
-        "tsConfig": "ui/tsconfig.lib.json",
-        "assets": []
+        "outputPath": "dist/out-tsc",
+        "tsConfig": "auth/tsconfig.lib.json",
+        "main": "auth/src/index.ts"
       }
     },
     "lint": {
@@ -20,17 +20,17 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "ui/**/*.ts",
-          "ui/**/*.tsx",
-          "ui/**/*.js",
-          "ui/**/*.jsx"
+          "auth/**/*.ts",
+          "auth/**/*.tsx",
+          "auth/**/*.js",
+          "auth/**/*.jsx"
         ]
       }
     },
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "echo \"No automated tests configured yet\""
+        "command": "echo \"No automated tests for @blackbird-os/auth yet (stub target).\""
       }
     }
   }

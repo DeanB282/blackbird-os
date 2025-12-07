@@ -85,20 +85,20 @@
       }
     }
   ],
-       "targetDefaults": {
-        "test": {
-         "dependsOn": ["^build"]
+  "targetDefaults": {
+    "test": {
+      "dependsOn": ["^build"]
     },
     "@nx/esbuild:esbuild": {
-     "cache": true,
+      "cache": true,
       "dependsOn": ["^build"],
-       "inputs": ["production", "^production"]
+      "inputs": ["production", "^production"]
     },
     "typecheck": {
-     "outputs": []
+      "outputs": []
     }
   },
-   "generators": {
+  "generators": {
     "@nx/next": {
       "application": {
         "style": "tailwind",
