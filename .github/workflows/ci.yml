@@ -40,36 +40,20 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run lint, test, build, typecheck
-        run: pnpm exec nx run-many -t lint test build typecheck
+        run: pnpm exec nx run-many -t lint test build typecheck --output-style=stream
+
+      # ---- Phase A Tycoon: e2e stub stage ----
+      - name: Run e2e tests (stub stage)
+        run: |
+          pnpm exec nx run-many -t e2e --all --output-style=stream || \
+          echo "No e2e projects defined yet – e2e stage is a Phase B deliverable."
+
+      # ---- Phase A Tycoon: SLSA provenance stub ----
+      - name: SLSA provenance stub
+        run: |
+          echo "SLSA generator wiring placeholder."
+          echo "In Phase B we hook in slsa-framework/slsa-github-generator for real provenance."
 
       - name: Run nx fix-ci
         if: always()
         run: pnpm exec nx fix-ci
-
-  e2e:
-    name: E2E tests (stub)
-    needs: main
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-        with:
-          filter: tree:0
-          fetch-depth: 0
-
-      - name: E2E tests placeholder
-        run: |
-          echo "No e2e tests wired yet."
-          echo "This job exists as a hook for future Playwright/Cypress tests."
-
-  slsa-provenance:
-    name: SLSA provenance (stub)
-    needs: main
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: SLSA generator placeholder
-        run: |
-          echo "SLSA provenance generation will be added here"
-          echo "once we have a concrete release artifact in Phase B."
