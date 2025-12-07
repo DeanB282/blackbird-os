@@ -6,13 +6,17 @@
   "main": "./src/index.ts",
   "module": "./src/index.ts",
   "types": "./src/index.ts",
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "types": "./src/index.ts",
-      "import": "./src/index.ts",
-      "default": "./src/index.ts"
-    }
+"exports": {
+  "./package.json": "./package.json",
+  ".": {
+    "types": "./src/index.ts",
+    "import": "./src/index.ts",
+    "default": "./src/index.ts"
+  },
+  "./tailwind-preset": {
+    "import": "./src/lib/tailwind-preset.cjs",
+    "default": "./src/lib/tailwind-preset.cjs"
+   }
   },
   "dependencies": {
     "tslib": "^2.3.0"
