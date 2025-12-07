@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { HelloCard } from './HelloCard';
+import type { Meta, StoryObj } from "@storybook/react";
+import HelloCard from "./HelloCard";
 
 const meta: Meta<typeof HelloCard> = {
   title: 'Blackbird UI/HelloCard',

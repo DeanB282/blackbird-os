@@ -22,8 +22,7 @@
       "@/*": ["./*"]
     },
     "types": ["jest", "node"],
-    "outDir": "dist",
-    "rootDir": "."
+    "outDir": "dist"
   },
   "include": [
     "app/**/*.ts",
