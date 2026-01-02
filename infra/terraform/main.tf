@@ -2,15 +2,21 @@ terraform {
   # Match the version you have installed
   required_version = ">= 1.14.0"
 
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "blackbird-os" # <-- your real org name
+
+    workspaces {
+      name = "blackbird-os-dev" # <-- your real workspace name
+    }
+  }
+
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
       version = "~> 4.6"
     }
   }
-
-  # Local backend only for now (no shared remote state yet)
-  backend "local" {}
 }
 
 provider "azurerm" {
