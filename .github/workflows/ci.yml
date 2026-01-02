@@ -13,27 +13,28 @@ permissions:
 jobs:
   main:
     runs-on: ubuntu-latest
+
     env:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
     steps:
       - name: Checkout repo
-        # actions/checkout v4 pinned to SHA (v4.1.7)
+        # actions/checkout v4.1.7 pinned to SHA
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
-          filter: tree:0
           fetch-depth: 0
+          filter: tree:0
 
       - name: Install pnpm
-        # pnpm/action-setup v4 pinned to SHA
+        # pnpm/action-setup v4.0.0 pinned to SHA
         uses: pnpm/action-setup@fe02b34f77f8bc703788d5817da081398fad5dd2
         with:
           version: 9.8.0
           run_install: false
 
       - name: Setup Node.js
-        # actions/setup-node v4 pinned to SHA (v4.0.3)
-        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b
+        # actions/setup-node v4.1.0 pinned to SHA
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
         with:
           node-version: 20
           cache: pnpm
@@ -44,41 +45,33 @@ jobs:
       - name: Run lint, test, build, typecheck
         run: pnpm exec nx run-many -t lint test build typecheck --output-style=stream
 
-      # ---- Supply-chain / security gates ----
-
       - name: Security audit (pnpm)
-        # Fail the pipeline if there are HIGH or CRITICAL vulns
         run: pnpm audit --audit-level=high
 
       - name: Generate SBOM (CycloneDX via cdxgen)
-        run: pnpm dlx @cyclonedx/cdxgen@11.7.0 -t nodejs -o sbom.cyclonedx.json
+        run: pnpm dlx @cyclonedx/cdxgen -o sbom.cyclonedx.json
 
-      # ---- Phase A Tycoon: e2e stub stage ----
+      - name: Build Storybook (ui)
+        run: pnpm nx run ui:build-storybook --skip-nx-cache
+
+      - name: Run Chromatic visual regression
+        # Chromatic GitHub Action – versioned at v1
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          storybookBuildDir: ui/storybook-static
+          exitZeroOnChanges: false
+          onlyChanged: true
+
       - name: Run e2e tests (stub stage)
         run: |
           pnpm exec nx run-many -t e2e --all --output-style=stream || \
           echo "No e2e projects defined yet – e2e stage is a Phase B deliverable."
 
-      # ---- Phase A Tycoon: SLSA provenance stub ----
       - name: SLSA provenance stub
         run: |
           echo "SLSA generator wiring placeholder."
           echo "In Phase B we hook in slsa-framework/slsa-github-generator for real provenance."
-
-   - name: Build Storybook (ui)
-     run: pnpm nx run ui:build-storybook --skip-nx-cache
-
-   - name: Publish Storybook to Chromatic (visual regression)
-     uses: chromaui/action@v13.3.4
-     with:
-       projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-       # This is where Nx outputs the static Storybook build:
-       storybookBuildDir: ui/storybook-static
-       # Fail CI if there are visual changes (hard gate)
-       exitZeroOnChanges: false
-       # Only run on changed code to keep CI fast
-       onlyChanged: true
-
 
       - name: Run nx fix-ci
         if: always()
