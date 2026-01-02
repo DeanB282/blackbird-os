@@ -7,8 +7,8 @@ on:
   pull_request:
 
 permissions:
-  actions: read
   contents: read
+  actions: read
 
 jobs:
   main:
@@ -19,19 +19,22 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        # actions/checkout v4 pinned to SHA (v4.1.7)
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
           filter: tree:0
           fetch-depth: 0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        # pnpm/action-setup v4 pinned to SHA
+        uses: pnpm/action-setup@fe02b34f77f8bc703788d5817da081398fad5dd2
         with:
           version: 9.8.0
           run_install: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        # actions/setup-node v4 pinned to SHA (v4.0.3)
+        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b
         with:
           node-version: 20
           cache: pnpm
@@ -41,6 +44,16 @@ jobs:
 
       - name: Run lint, test, build, typecheck
         run: pnpm exec nx run-many -t lint test build typecheck --output-style=stream
+
+      # ---- Supply-chain / security gates ----
+
+      - name: Security audit (pnpm)
+        # Fail the pipeline if there are HIGH or CRITICAL vulns
+        run: pnpm audit --audit-level=high
+
+      - name: Generate SBOM (CycloneDX)
+        # Writes a CycloneDX SBOM to sbom.cyclonedx.json in the repo root
+        run: pnpm dlx @cyclonedx/bom . -o sbom.cyclonedx.json
 
       # ---- Phase A Tycoon: e2e stub stage ----
       - name: Run e2e tests (stub stage)
