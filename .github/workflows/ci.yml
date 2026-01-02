@@ -66,6 +66,21 @@ jobs:
           echo "SLSA generator wiring placeholder."
           echo "In Phase B we hook in slsa-framework/slsa-github-generator for real provenance."
 
+   - name: Build Storybook (ui)
+     run: pnpm nx run ui:build-storybook --skip-nx-cache
+
+   - name: Publish Storybook to Chromatic (visual regression)
+     uses: chromaui/action@v13.3.4
+     with:
+       projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+       # This is where Nx outputs the static Storybook build:
+       storybookBuildDir: ui/storybook-static
+       # Fail CI if there are visual changes (hard gate)
+       exitZeroOnChanges: false
+       # Only run on changed code to keep CI fast
+       onlyChanged: true
+
+
       - name: Run nx fix-ci
         if: always()
         run: pnpm exec nx fix-ci
