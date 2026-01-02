@@ -52,8 +52,8 @@ jobs:
         run: pnpm audit --audit-level=high
 
       - name: Generate SBOM (CycloneDX)
-        # Use the official CycloneDX npm generator for Node projects
-        run: pnpm dlx @cyclonedx/cyclonedx-npm --output-file sbom.cyclonedx.json .
+        # Generate SBOM from pnpm workspace using cyclonedx-bom
+        run: pnpm exec cyclonedx-bom -o sbom.cyclonedx.json
 
       # ---- Phase A Tycoon: e2e stub stage ----
       - name: Run e2e tests (stub stage)
