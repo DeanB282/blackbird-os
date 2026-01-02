@@ -51,9 +51,8 @@ jobs:
         # Fail the pipeline if there are HIGH or CRITICAL vulns
         run: pnpm audit --audit-level=high
 
-      - name: Generate SBOM (CycloneDX)
-        # Generate SBOM from pnpm workspace using cyclonedx-bom
-        run: pnpm exec cyclonedx-bom -o sbom.cyclonedx.json
+      - name: Generate SBOM (CycloneDX via cdxgen)
+        run: pnpm dlx @cyclonedx/cdxgen@11.7.0 -t nodejs -o sbom.cyclonedx.json
 
       # ---- Phase A Tycoon: e2e stub stage ----
       - name: Run e2e tests (stub stage)
