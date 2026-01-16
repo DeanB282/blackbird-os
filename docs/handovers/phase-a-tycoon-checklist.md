@@ -13,7 +13,6 @@ machine or after a break.
 - Repo is **public** on GitHub.
 - `main` is protected:
   - ✅ Pull request required.
-  - ✅ At least one approval required.
   - ✅ Status checks must pass.
   - ✅ Signed commits required.
   - ✅ Direct push to `main` is rejected with  
@@ -55,24 +54,12 @@ machine or after a break.
   - Plan: `docs/infra/cost-to-zero.md`.
   - Runbook: `docs/runbooks/emergency-cost-kill-switch.md`.
 
-## Local dev smoke test
+---
+
+## 2. Local dev smoke test
 
 - [x] Nx dev server runs for web
 
 ```bash
 # From repo root
 pnpm exec nx dev web
-
-
----
-
-## 2. Local dev litmus tests (new machine smoke test)
-
-These are the **minimum checks** to convince yourself dev is healthy.
-
-From a fresh clone:
-
-```bash
-git clone git@github.com:DeanB282/blackbird-os.git
-cd blackbird-os
-pnpm install
