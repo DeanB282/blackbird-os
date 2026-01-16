@@ -3,7 +3,24 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
+// Dev-only fallback secret so the app always has something in development
+const devFallbackSecret = "dev-only-secret-do-not-use-in-prod";
+
+const authSecret =
+  process.env.AUTH_SECRET ??
+  process.env.NEXTAUTH_SECRET ??
+  (process.env.NODE_ENV === "development" ? devFallbackSecret : undefined);
+
+// In non-dev, we *must* have a real secret from env
+if (!authSecret) {
+  throw new Error(
+    "AUTH_SECRET / NEXTAUTH_SECRET is missing. " +
+      "Set it in your environment (e.g. web/.env.local) before starting the app."
+  );
+}
+
 export const { auth, signIn, signOut, handlers } = NextAuth({
+  secret: authSecret,
   providers: [
     Credentials({
       credentials: {
@@ -12,7 +29,6 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
       },
 
       async authorize(credentials) {
-        // Guard so TypeScript knows credentials are present
         if (!credentials?.email || !credentials.password) {
           return null;
         }
