@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Checkout repo
         # actions/checkout v4.1.7 pinned to SHA
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           fetch-depth: 0
           filter: tree:0
