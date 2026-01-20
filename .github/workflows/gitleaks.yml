@@ -1,0 +1,24 @@
+name: secrets-scan-gitleaks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  gitleaks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@<PINNED_SHA> # pin to SHA
+
+      - name: Gitleaks scan
+        uses: gitleaks/gitleaks-action@<PINNED_SHA> # pin to SHA
+        with:
+          args: >
+            --redact
+            --verbose
+            --no-git

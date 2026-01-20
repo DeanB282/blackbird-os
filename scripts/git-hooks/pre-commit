@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Block committing .env* and private key material.
+blocked_patterns=(
+  "^web/\.env(\..+)?$"
+  "\.pem$"
+  "\.p12$"
+  "\.pfx$"
+  "id_rsa$"
+  "id_ed25519$"
+)
+
+# Get staged files
+staged_files=$(git diff --cached --name-only)
+
+for pat in "${blocked_patterns[@]}"; do
+  if echo "$staged_files" | grep -E "$pat" >/dev/null 2>&1; then
+    echo "ERROR: blocked by pre-commit hook (pattern: $pat)"
+    echo "Remove the file from staging and store secrets in Key Vault / GitHub Secrets."
+    exit 1
+  fi
+done
+
+# Optional: block common token patterns (lightweight)
+if git diff --cached | grep -E "(AKIA[0-9A-Z]{16}|-----BEGIN (RSA|OPENSSH) PRIVATE KEY-----|xox[baprs]-|ghp_[A-Za-z0-9]{36,})" >/dev/null 2>&1; then
+  echo "ERROR: staged diff contains a high-risk secret-like pattern."
+  echo "Fix before commit."
+  exit 1
+fi
+
+exit 0
