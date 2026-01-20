@@ -13,12 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+        uses: actions/checkout@v4
 
       - name: Gitleaks scan
-        uses: gitleaks/gitleaks-action@8efb3b6e2e4f51b9c7f9b7f47c8b93f8a6a7d4a2
+        uses: gitleaks/gitleaks-action@v2.3.6
         with:
-          args: >-
+          args: >
             --redact
             --verbose
-            --no-git
