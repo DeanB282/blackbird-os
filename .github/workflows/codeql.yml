@@ -1,0 +1,46 @@
+name: codeql
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 3 * * 1" # Mondays 03:00 UTC
+
+permissions:
+  security-events: write
+  contents: read
+
+jobs:
+  analyze:
+    name: CodeQL Analyze (TS/JS)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@a4fda0891d53e117609b7ddb3570638c2c6d7c89
+        with:
+          languages: javascript-typescript
+
+      - name: Setup Node
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@c5ba7f7862a0f64c1b1a05fbac13e0b8e86ba08c
+        with:
+          version: "9"
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build (for CodeQL extraction)
+        run: pnpm exec nx run-many -t build typecheck --all --output-style=stream
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@a4fda0891d53e117609b7ddb3570638c2c6d7c89
