@@ -80,7 +80,7 @@
   "dependencies": {
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
-    "@nestjs/platform-express": "^11.0.0",
+    "@nestjs/platform-express": "^11.1.12",
     "next": "~16.0.1",
     "next-auth": "5.0.0-beta.30",
     "react": "^19.0.0",
