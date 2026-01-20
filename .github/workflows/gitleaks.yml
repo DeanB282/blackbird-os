@@ -13,11 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@<PINNED_SHA> # pin to SHA
-
+        uses: actions/checkout@8e8c483db8b4bbee98b60c0593521ed34d9990e8
       - name: Gitleaks scan
-        uses: gitleaks/gitleaks-action@<PINNED_SHA> # pin to SHA
-        with:
+        uses: gitleaks/gitleaks-action@v2        with:
           args: >
             --redact
             --verbose
