@@ -55,13 +55,13 @@ jobs:
         run: pnpm nx run ui:build-storybook --skip-nx-cache
 
       - name: Run Chromatic visual regression
-        # Chromatic GitHub Action – versioned at v1
-        uses: chromaui/action@v1
+        if: ${{ github.actor != 'dependabot[bot]' && secrets.CHROMATIC_PROJECT_TOKEN != '' }}
+        uses: chromaui/action@bbd7ec876db505c57231ed2f3bce2f32d00b4ac
         with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          storybookBuildDir: ui/storybook-static
-          exitZeroOnChanges: false
-          onlyChanged: true
+        projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        storybookBuildDir: ui/storybook-static
+        exitZeroOnChanges: false
+        onlyChanged: true
 
       - name: Run e2e tests (stub stage)
         run: |
