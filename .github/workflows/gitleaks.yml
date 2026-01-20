@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
       - name: Gitleaks scan
-        uses: gitleaks/gitleaks-action@83373c2f8c4db6e24b41c1a9b086bb9619e9cd3
+        uses: gitleaks/gitleaks-action@8efb3b6e2e4f51b9c7f9b7f47c8b93f8a6a7d4a2
         with:
           args: >-
             --redact
