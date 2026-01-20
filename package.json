@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "hooks:install": "bash scripts/git-hooks/install.sh",
     "lint": "nx run-many --target=lint --projects=web,ui --parallel=3",
     "test": "echo \"No automated tests configured yet\"",
     "storybook:ui": "nx run @blackbird-os/ui:storybook"
