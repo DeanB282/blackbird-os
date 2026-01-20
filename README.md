@@ -103,3 +103,7 @@ And join the Nx community:
 - [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
 - [Our Youtube channel](https://www.youtube.com/@nxdevtools)
 - [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## Security controls
+
+- Secret leakage prevention is enforced locally via a pre-commit hook and in CI via Gitleaks.
+- Implementation + evidence: commit bf9a4c3 and PR #10.

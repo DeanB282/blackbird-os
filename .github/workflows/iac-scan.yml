@@ -1,0 +1,27 @@
+name: iac-scan
+
+on:
+  pull_request:
+    paths:
+      - "infra/terraform/**"
+  push:
+    branches: [main]
+    paths:
+      - "infra/terraform/**"
+
+permissions:
+  contents: read
+
+jobs:
+  tfsec:
+    name: tfsec (Terraform IaC scan)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+
+      - name: Run tfsec
+        uses: aquasecurity/tfsec-action@b466648d6e39e7c75324f25d83891162a721f2d6
+        with:
+          working_directory: infra/terraform

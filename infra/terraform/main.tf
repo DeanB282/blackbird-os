@@ -45,3 +45,5 @@ resource "azurerm_resource_group" "core" {
     owner       = "engineering"
   }
 }
+
+# fortress: trigger iac-scan
