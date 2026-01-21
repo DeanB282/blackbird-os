@@ -8,7 +8,7 @@ on:
 
 permissions:
   contents: read
-  actions: read
+  actions: write
 
 jobs:
   main:
@@ -18,6 +18,7 @@ jobs:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
       NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
@@ -48,6 +49,19 @@ jobs:
 
       - name: Generate SBOM (CycloneDX via cdxgen)
         run: pnpm dlx @cyclonedx/cdxgen -o sbom.cyclonedx.json
+
+      - name: Generate build metadata
+        run: bash scripts/ci/build-metadata.sh
+
+      - name: Upload build evidence
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: build-evidence-${{ github.sha }}
+          path: |
+            dist/ci/**
+            sbom.cyclonedx.json
+          retention-days: 60
 
       - name: Build Storybook (ui)
         run: pnpm nx run ui:build-storybook --skip-nx-cache
