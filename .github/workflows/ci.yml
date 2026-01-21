@@ -67,7 +67,7 @@ jobs:
         run: pnpm nx run ui:build-storybook --skip-nx-cache
 
       - name: Run Chromatic visual regression
-        if: ${{ github.actor != 'dependabot[bot]' && secrets.CHROMATIC_PROJECT_TOKEN != '' }}
+        if: ${{ github.actor != 'dependabot[bot]' && env.CHROMATIC_PROJECT_TOKEN != '' }}
         uses: chromaui/action@v1
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
