@@ -1,21 +1,57 @@
-- name: Checkout
-  uses: actions/checkout@v4
+name: codeql
 
-- name: Setup Node
-  uses: actions/setup-node@v4
-  with:
-    node-version: "20"
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 3 * * 1" # Mondays 03:00 UTC
 
-- name: Setup pnpm
-  uses: pnpm/action-setup@v4
-  with:
-    version: "9"
+permissions:
+  security-events: write
+  contents: read
 
-- name: Install
-  run: pnpm install --frozen-lockfile
+jobs:
+  analyze:
+    name: CodeQL Analyze (TS/JS)
+    runs-on: ubuntu-latest
 
-- name: Build (for CodeQL extraction)
-  run: pnpm exec nx run-many -t build typecheck --all --output-style=stream
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
-- name: Perform CodeQL Analysis
-  uses: github/codeql-action/analyze@v3
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@4bdb89f48054571735e3792627da6195c57459e2
+        with:
+          languages: javascript-typescript
+
+      - name: Setup Node
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238
+        with:
+          node-version: "20"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
+        with:
+          version: "9"
+
+      - name: Get pnpm store path
+        id: pnpm-store
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build (for CodeQL extraction)
+        run: pnpm exec nx run-many -t build typecheck --all --output-style=stream
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@4bdb89f48054571735e3792627da6195c57459e2
