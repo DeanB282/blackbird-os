@@ -19,21 +19,18 @@ jobs:
 
     steps:
       - name: Checkout repo
-        # actions/checkout v4.1.7 pinned to SHA
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           fetch-depth: 0
           filter: tree:0
 
       - name: Install pnpm
-        # pnpm/action-setup v4.0.0 pinned to SHA
         uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
         with:
           version: 9.8.0
           run_install: false
 
       - name: Setup Node.js
-        # actions/setup-node v4.1.0 pinned to SHA
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238
         with:
           node-version: 20
@@ -58,10 +55,10 @@ jobs:
         if: ${{ github.actor != 'dependabot[bot]' && secrets.CHROMATIC_PROJECT_TOKEN != '' }}
         uses: chromaui/action@bbd7ec876db505c57231ed2f3bce2f32d00b4ac
         with:
-        projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-        storybookBuildDir: ui/storybook-static
-        exitZeroOnChanges: false
-        onlyChanged: true
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          storybookBuildDir: ui/storybook-static
+          exitZeroOnChanges: false
+          onlyChanged: true
 
       - name: Run e2e tests (stub stage)
         run: |
