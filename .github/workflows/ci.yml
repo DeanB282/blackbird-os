@@ -55,12 +55,12 @@ jobs:
         if: ${{ github.actor != 'dependabot[bot]' && env.CHROMATIC_PROJECT_TOKEN != '' }}
         uses: chromaui/action@bbd7ec876db505c57231ed2f3bce2f32d00b4ac
         env:
-        CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           storybookBuildDir: ui/storybook-static
-        exitZeroOnChanges: false
-        onlyChanged: true
+          exitZeroOnChanges: false
+          onlyChanged: true
 
       - name: Run e2e tests (stub stage)
         run: |
