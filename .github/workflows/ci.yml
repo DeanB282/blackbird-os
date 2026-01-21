@@ -49,6 +49,19 @@ jobs:
       - name: Generate SBOM (CycloneDX via cdxgen)
         run: pnpm dlx @cyclonedx/cdxgen -o sbom.cyclonedx.json
 
+      - name: Generate build metadata
+        run: bash scripts/ci/build-metadata.sh
+
+      - name: Upload build evidence
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+          with:
+        name: build-evidence-${{ github.sha }}
+        path: |
+          dist/ci/**
+          sbom.cyclonedx.json
+         retention-days: 60
+
       - name: Build Storybook (ui)
         run: pnpm nx run ui:build-storybook --skip-nx-cache
 
