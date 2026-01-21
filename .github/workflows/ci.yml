@@ -53,7 +53,7 @@ jobs:
 
       - name: Run Chromatic visual regression
         if: ${{ github.actor != 'dependabot[bot]' && env.CHROMATIC_PROJECT_TOKEN != '' }}
-        uses: chromaui/action@bbd7ec876db505c57231ed2f3bce2f32d00b4ac
+        uses: chromaui/action@v1
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
         with:
