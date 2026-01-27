@@ -75,29 +75,30 @@ jobs:
           ls -la ui
           ls -la ui/storybook-static
 
-        - name: Package storybook (deterministic tar)
-          run: |
-            mkdir -p dist
-            tar \
-              --sort=name \
-              --mtime='UTC 2020-01-01' \
-              --owner=0 --group=0 --numeric-owner \
-              -czf dist/storybook-static.tgz \
-              -C ui storybook-static
+      - name: Package storybook (deterministic tar)
+        run: |
+          mkdir -p dist
+          tar \
+            --sort=name \
+            --mtime='UTC 2020-01-01' \
+            --owner=0 --group=0 --numeric-owner \
+            -czf dist/storybook-static.tgz \
+            -C ui storybook-static
 
-        - name: Upload storybook bundle
-          if: github.ref == 'refs/heads/main'
-          uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-          with:
-            name: storybook-static-${{ github.sha }}
-            path: dist/storybook-static.tgz
-            retention-days: 60
+      - name: Upload storybook bundle
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: storybook-static-${{ github.sha }}
+          path: dist/storybook-static.tgz
+          retention-days: 60
 
-        - name: Attest build provenance (storybook bundle)
-          if: github.ref == 'refs/heads/main'
-          uses: actions/attest-build-provenance@43d14bc2b83dec42d39ecae14e916627a18bb661
-          with:
-            subject-path: dist/storybook-static.tgz
+      - name: Attest build provenance (storybook bundle)
+        if: github.ref == 'refs/heads/main'
+        uses: actions/attest-build-provenance@43d14bc2b83dec42d39ecae14e916627a18bb661
+        with:
+          subject-path: dist/storybook-static.tgz
+
 
         - name: Detect UI changes
           id: changes
