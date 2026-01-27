@@ -99,16 +99,30 @@ jobs:
         with:
           subject-path: dist/storybook-static.tgz
 
-      - name: Run Chromatic visual regression
-        if: ${{ github.actor != 'dependabot[bot]' && env.CHROMATIC_PROJECT_TOKEN != '' }}
-        uses: chromaui/action@v1
-        env:
-          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-        with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          storybookBuildDir: ui/storybook-static
-          exitZeroOnChanges: false
-          onlyChanged: true
+        - name: Detect UI changes
+          id: changes
+          uses: dorny/paths-filter@v3
+          with:
+            filters: |
+              ui:
+                - 'libs/ui/**'
+                - 'apps/**'
+                - '.storybook/**'
+                - '**/*.stories.*'
+                - '**/storybook/**'
+
+        - name: Run Chromatic visual regression
+          if: ${{ github.actor != 'dependabot[bot]' && steps.changes.outputs.ui == 'true' && secrets.CHROMATIC_PROJECT_TOKEN != '' }}
+          uses: chromaui/action@v1
+          with:
+            projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+            storybookBuildDir: ui/storybook-static
+            exitZeroOnChanges: false
+            onlyChanged: false
+
+        - name: Skip Chromatic (no UI changes)
+          if: ${{ steps.changes.outputs.ui != 'true' }}
+          run: echo "No UI/Storybook changes detected — skipping Chromatic."
 
       - name: Run e2e tests (stub stage)
         run: |
